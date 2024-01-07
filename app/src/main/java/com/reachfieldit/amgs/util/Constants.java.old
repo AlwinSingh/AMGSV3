@@ -1,0 +1,44 @@
+package com.reachfieldit.amgs.util;
+
+import android.os.Environment;
+
+import java.util.HashMap;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSocketFactory;
+
+public class Constants {
+    //public static GlobalMethods globalMethods = new GlobalMethods();
+    //public static FileManager fileManager = new FileManager();
+
+    public static String LOGGING_TAG = "[AMGSV2-LOG]";
+
+    //public static String VIDEO_DIRECTORY_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/AMGS/";
+    //public static String VIDEO_OUTPUT_NAME = "EVIDENCE.mp4";
+    public static String ANDROID_11_VIDEO_DIRECTORY_PATH = "";
+
+    public static SSLSocketFactory sslSocketFactory = null;
+    public static HostnameVerifier hostnameVerifier = null;
+
+    //public static String base_url = BuildConfig.BASE_URL;
+    //public static String base_protocol = BuildConfig.BASE_PROTOCOL;
+
+    public static int site_id = -1;
+    public static String appID = null;
+    public static String site_image = null;
+
+    public static final String appid_key = "app_id";
+    public static final String login_key = "login_status";
+    public static final String auth_key = "auth_key";
+    public static final String sensor_key = "sensor";
+    public static final String userdata_key = "user_data";
+
+    public static final String app_prefs = "AmgsPrefs";
+    public static final String login_api = "/api/mobile/login";
+    public static final String recording_api = "/api/recording/";
+    public static final String site_image_api = "/siteImage/";
+    public static final String sensor_retrieve_api = "/api/sensor/retrieveSensors/";
+    public static final String sensor_update_api = "/api/sensor/updateSensor/";
+
+    public static Double AVERAGE_TIME_LAPSE_SECONDS = 5.0;
+}

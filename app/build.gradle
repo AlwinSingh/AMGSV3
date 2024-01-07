@@ -1,0 +1,88 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.reachfieldit.amgs'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.reachfieldit.amgs"
+        minSdk 26
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "productFlavors"
+
+    productFlavors {
+        /* For PROD Server */
+        production {
+            //applicationIdSuffix ".production"
+            versionNameSuffix "-PROD"
+            buildConfigField('String', 'BASE_URL', '"https://sgems.logicsmartsoln.com"')
+            manifestPlaceholders = [
+                    appName: "AMGS V3",
+                    appIcon: "@drawable/ic_launcher",
+                    appIconRound: "@drawable/ic_launcher"
+            ]
+        }
+
+        /* For UAT Server */
+        uat {
+            applicationIdSuffix ".uat"
+            versionNameSuffix "-UAT"
+            //buildConfigField('String', 'BASE_URL', '"https://192.168.10.104"')
+            buildConfigField('String', 'BASE_URL', '"https://sgemsuat.logicsmartsoln.com"')
+            manifestPlaceholders = [
+                    appName: "AMGS V3 UAT",
+                    appIcon: "@drawable/ic_launcher_uat",
+                    appIconRound: "@drawable/ic_launcher_uat"
+            ]
+        }
+
+        /* For localhost testing */
+        development {
+            applicationIdSuffix ".development"
+            versionNameSuffix "-DEV"
+            buildConfigField('String', 'BASE_URL', '"https://192.168.10.104"')
+            manifestPlaceholders = [
+                    appName: "AMGS V3 DEV",
+                    appIcon: "@drawable/ic_launcher_dev",
+                    appIconRound: "@drawable/ic_launcher_dev"
+            ]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig = true
+    }
+}
+
+dependencies {
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.5.2'
+    implementation 'androidx.navigation:navigation-ui:2.5.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

@@ -1,0 +1,95 @@
+package com.reachfieldit.amgs.util;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import org.json.JSONObject;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.util.Base64;
+
+import javax.net.ssl.HttpsURLConnection;
+
+/**
+ * @author Alwin Singh
+ */
+
+public class AuthClient {
+    Context mCtx = null;
+    SharedPreferences mPrefs = null;
+    SharedPreferences.Editor editor = null;
+
+    //Checks if user is authenticated
+    public boolean isClientAuthenticated() {
+        return mPrefs.getBoolean(Constants.login_key, false);
+    }
+
+    private void authenticateClient(String auth_key) {
+        if (auth_key != null) {
+            Log.d("[AuthClient]", "Authenticating Client...");
+            editor.putBoolean(Constants.login_key, true);
+            editor.putString(Constants.auth_key, auth_key);
+            editor.commit();
+        } else {
+            Log.d("[AuthClient]", "Failed to authenticate Client...");
+        }
+    }
+
+    public void unAuthenticateClient() {
+        Log.d("[AuthClient]", "Un-authenticating Client...");
+        editor.remove(Constants.login_key);
+        editor.remove(Constants.auth_key);
+        editor.remove(Constants.userdata_key);
+        //editor.remove(Constants.selected_sensor_name);
+        editor.remove(Constants.sensor_key);
+        //editor.remove(Constants.selected_sensor_position);
+        //editor.remove(Constants.decibel_key);
+        editor.commit();
+    }
+
+    public String getUserID() {
+        try {
+            JSONObject user_data = new JSONObject(mPrefs.getString(Constants.userdata_key, null));
+            Log.d("User", user_data.getString("jti"));
+            return user_data.getString("jti");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getSiteInfo() {
+        try {
+            JSONObject user_data = new JSONObject(mPrefs.getString(Constants.userdata_key, null));
+            Log.d("User", user_data.getString("siteID"));
+            Constants.site_id = user_data.getInt("siteID");
+            Constants.site_image = user_data.getString("siteImage");
+            Log.d("User", String.valueOf(Constants.site_id));
+            return user_data.getString("siteID");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getSensorName(){
+        String sensor_name = "";
+        try {
+            String sensorKey = mPrefs.getString(Constants.sensor_key, null);
+            if (sensorKey != null) {
+                sensor_name = new JSONObject(sensorKey).getString("sensor_name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sensor_name;
+    }
+}
